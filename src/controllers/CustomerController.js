@@ -1,33 +1,34 @@
 const Service = require('../services');
+const BaseController = require('./BaseController');
 
 
-module.exports = {
-    getCustomers : async (req,res)=>{
-       try {
-           const customers = await Service.CustomerService.fetch({},{},{})
-           res.json(customers);
-       } catch(err) {
-           res.send(err);
-       }
-    },
-    saveCustomer : async (req,res) => {
-        try {
-            console.log("CUsotmer",req.body);
-             const customerData = Object.assign({},req.body);
-            const savedCustomer = await Service.CustomerService.save(customerData);
+class CustomerController extends BaseController {
 
-            res.json(savedCustomer);
-        } catch(err) {
-            res.send(err);
-        }
-    },
-    deleteCustomer : async (req,res)=>{
-        try {
-            const customer = req.params.customer.trim();
-            const deletedCustomer = await Service.CustomerService.removeCustomer({"_id":customer},{});
-            res.json(deletedCustomer);
-        } catch(err) {
-            res.send(err);
-        }
+    constructor() {
+        super();
+    }
+
+    getCustomers(req,res) {
+        const customers = Service.CustomerService.fetch({},{},{})
+        return this.sendResponse(req,res,customers)
+    }
+
+    async getSingleCustomer(req,res) {
+        const customer =  Service.CustomerService.fetchOne({_id:req.params.customer},{},{});
+        return this.sendResponse(req,res,customer)
+    }
+
+    async saveCustomer(req,res) {
+        const customerData = Object.assign({},req.body);
+        const savedCustomer = await Service.CustomerService.save(customerData);
+        return this.sendResponse(req,res,savedCustomer);
+    }
+
+    async deleteCustomer(req,res) {
+        const customer = req.params.customer.trim();
+        const deletedCustomer = await Service.CustomerService.removeCustomer({"_id":customer},{});
+        return this.sendResponse(req,res,deletedCustomer);
     }
 }
+
+module.exports = new CustomerController();

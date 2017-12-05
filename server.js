@@ -61,9 +61,10 @@ function loadSSL() {
     Routes
  */
 App.get('/',(req,res)=>res.send('Hello'));
-App.get('/customers',Controllers.CustomerController.getCustomers);
-App.post('/customers',Controllers.CustomerController.saveCustomer);
-App.delete('/customers/:customer',Controllers.CustomerController.deleteCustomer);
+App.get('/customers',Controllers.CustomerController.getCustomers.bind(Controllers.CustomerController));
+App.get('/customers/:customer',Controllers.CustomerController.getSingleCustomer.bind(Controllers.CustomerController));
+App.post('/customers',Controllers.CustomerController.saveCustomer.bind(Controllers.CustomerController));
+App.delete('/customers/:customer',Controllers.CustomerController.deleteCustomer.bind(Controllers.CustomerController));
 // Log all uncaught errors in log file and terminal
 process
     .on("unhandledRejection", (reason, p) => {

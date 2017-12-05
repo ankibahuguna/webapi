@@ -1,21 +1,23 @@
 const User = require('../models').User;
 
+const DAO = require('../DAO');
 
+const DB = new DAO(User);
 
 module.exports = {
     fetch  : (criteria,projection,options)=>{
-        return User.find(criteria,projection,options).lean().exec();
+        return DB.find(criteria,projection,options)
     },
-    save : (customer) => User.create(customer),
+    save : (customer) => DB.save(customer),
 
     fetchOne  : (criteria,projection,options)=>{
-        return User.findOne(criteria,projection,options).lean().exec();
+        return DB.findOne(criteria,projection,options);
     },
     update  : (criteria,fieldsToUpdate,options)=>{
-        return User.findOneAndUpdate(criteria,fieldsToUpdate,options).lean().exec();
+        return DB.updateOne(criteria,fieldsToUpdate,options);
     },
     removeCustomer : (criteria,options={}) => {
-        return User.findOneAndRemove(criteria,options).lean().exec();
+        return DB.removeOne(criteria,options);
     }
 
 }
