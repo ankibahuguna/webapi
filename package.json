@@ -10,12 +10,10 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.17.1",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
     "config": "^1.28.1",
     "express": "^4.16.2",
-    "joi": "^13.0.2",
     "mongoose": "^4.13.6"
   }
 }
