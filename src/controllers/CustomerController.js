@@ -1,4 +1,4 @@
-const Service = require('../services');
+const { CustomerService }= require('../services');
 const BaseController = require('./BaseController');
 
 
@@ -9,25 +9,21 @@ class CustomerController extends BaseController {
     }
 
     getCustomers(req,res) {
-        const customers = Service.CustomerService.fetch({},{},{})
-        return this.sendResponse(req,res,customers)
+        return this.sendResponse(req,res,CustomerService.fetch({},{},{}))
     }
 
     async getSingleCustomer(req,res) {
-        const customer =  Service.CustomerService.fetchOne({_id:req.params.customer},{},{});
-        return this.sendResponse(req,res,customer)
+	return this.sendResponse(req,res,CustomerService.fetchOne({_id:req.params.customer},{},{}))
     }
 
     async saveCustomer(req,res) {
         const customerData = Object.assign({},req.body);
-        const savedCustomer = await Service.CustomerService.save(customerData);
-        return this.sendResponse(req,res,savedCustomer);
+        return this.sendResponse(req,res,CustomerService.save(customerData));
     }
 
     async deleteCustomer(req,res) {
         const customer = req.params.customer.trim();
-        const deletedCustomer = await Service.CustomerService.removeCustomer({"_id":customer},{});
-        return this.sendResponse(req,res,deletedCustomer);
+        return this.sendResponse(req,res,CustomerService.removeCustomer({"_id":customer},{}));
     }
 }
 

@@ -1,4 +1,3 @@
-process.env.NODE_CONFIG_DIR = "./config";
 const Bluebird = require("bluebird");
 const Express = require("express");
 const Mongoose = require('mongoose');
@@ -6,7 +5,7 @@ const Config = require('config');
 const Http = require('http');
 const Https = require('https');
 const BodyParser = require('body-parser');
-const Controllers = require("./src/controllers");
+const { CustomerController } = require("./src/controllers");
 
 
 const App = Express();
@@ -61,10 +60,12 @@ function loadSSL() {
     Routes
  */
 App.get('/',(req,res)=>res.send('Hello'));
-App.get('/customers',Controllers.CustomerController.getCustomers.bind(Controllers.CustomerController));
-App.get('/customers/:customer',Controllers.CustomerController.getSingleCustomer.bind(Controllers.CustomerController));
-App.post('/customers',Controllers.CustomerController.saveCustomer.bind(Controllers.CustomerController));
-App.delete('/customers/:customer',Controllers.CustomerController.deleteCustomer.bind(Controllers.CustomerController));
+
+App.get('/customers',CustomerController.getCustomers.bind(CustomerController));
+App.get('/customers/:customer',CustomerController.getSingleCustomer.bind(CustomerController));
+App.post('/customers',CustomerController.saveCustomer.bind(CustomerController));
+App.delete('/customers/:customer',CustomerController.deleteCustomer.bind(CustomerController));
+
 // Log all uncaught errors in log file and terminal
 process
     .on("unhandledRejection", (reason, p) => {
